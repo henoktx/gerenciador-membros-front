@@ -3,7 +3,7 @@ const navItens = [
     { 
         title: "Dashboard",
         props: {
-            to: "/",
+            to: { name: "Home" },
             prependIcon: "mdi-view-dashboard"
         }
     }, 
