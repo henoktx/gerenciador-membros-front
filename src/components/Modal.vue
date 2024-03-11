@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-
 const props = defineProps<{
     isActivate: boolean
 }>();
@@ -18,9 +16,13 @@ defineEmits<{"close": []}> ();
         <v-card
             prepend-icon="mdi-account"
             title="Membro"
+            class="rounded-lg pa-2"
         >
             <v-card-text>
-                <v-row dense>
+                <v-row 
+                    dense
+                    class="mt-2"
+                >
                     <v-col
                         cols="12"
                         md="7"
