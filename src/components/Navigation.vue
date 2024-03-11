@@ -10,14 +10,14 @@ const navItens = [
     { 
         title: "Membros",
         props: {
-            to: "membros",
+            to: { name: "Membros" },
             prependIcon: "mdi-account-group"
         }
     }, 
     { 
         title: "Diáconos",
         props: {
-            to: "diaconos",
+            to: { name: "Diaconos" },
             prependIcon: "mdi-account-supervisor"
         } 
     }
@@ -26,12 +26,23 @@ const navItens = [
 
 <template>
     <v-navigation-drawer
-        theme="dark"
+        permanent
+        class="pa-md-4 mx-lg-auto"
     >
         <v-list-item 
             height="150" 
             title="Gerenciador de membros" 
         />
-        <v-list :items="navItens" />
+
+        <v-list-item
+            v-for="{ title, props } in navItens"
+            :key="title"
+            :title="title"
+            :to="props.to"
+            :prepend-icon="props.prependIcon"
+            class="rounded-lg mb-1 pa-3"
+        >    
+        </v-list-item>
+
     </v-navigation-drawer>
 </template>
