@@ -43,6 +43,5 @@ const navItens = [
             class="rounded-lg mb-1 pa-3"
         >    
         </v-list-item>
-
     </v-navigation-drawer>
 </template>
