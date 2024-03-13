@@ -6,5 +6,5 @@ interface Membro {
     telefone: string,
     dataNascimento: string,
     dataInclusao: string,
-    diaconoResponsavelId: number | null 
+    diaconoResponsavel: Diacono | null 
 }
