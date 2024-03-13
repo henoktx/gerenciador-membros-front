@@ -1,43 +1,50 @@
 <script setup lang="ts">
-import { getAll } from '@/service/services';
-import { ref } from 'vue';
+import { router } from '@/router';
+import { ref, watch } from 'vue';
+
+interface rowInfo {
+    index: number
+}
 
 const props = defineProps<{
-    search: string,
-    getItens: (p: number, s: number) => Promise<MembroCollection | null>,
+    search?: string,
+    headers: { title: string, value: string }[]
+    getItens: (p: number, s: number, n: string) => Promise<MembroCollection | null>,
 }>();
 
 const loading = ref(true);
 const items = ref<Membro[]>([]);
 const pageable = ref<Pageable>({
-    number: 0,
+    number: 1,
     size: 10,
     totalElements: 0,
     totalPages: 0
 });
 
-const headers = ref([
-    { title: "Nome", value: "nomeCompleto" },
-    { title: "Diácono responsável", value: "diaconoResponsavelId" },
-    { title: "Telefone", value: "telefone" },
-    { title: "Endereço", value: "endereco" }
-]);
+watch(props, () => {
+    loadItems({ page: pageable.value.number, itemsPerPage: pageable.value.size });
+});
 
-
-async function loadItems(Object: { page: number, itemsPerPage: number }) {
+async function loadItems(object: { page: number, itemsPerPage: number }) {
     loading.value = true;
 
-    const result = await props.getItens(Object.page - 1, Object.itemsPerPage);
-    // const result = await getAll(Object.page - 1, Object.itemsPerPage);
+    const result = await props.getItens(object.page - 1, object.itemsPerPage, props.search ?? "");
 
     if (result == null) {
         console.log("error");
+        loading.value = false;
     } else {
         items.value = result.membros;
         pageable.value = result.pageable;
+        pageable.value.number += 1;
         loading.value = false; 
-        console.log("aa")
     }
+}
+
+function handleColumnEvent(index: number) {
+    const { id } = items.value[index];
+
+    router.push({ name: "Membro", params: { id }})
 }
 </script>
 
@@ -48,13 +55,15 @@ async function loadItems(Object: { page: number, itemsPerPage: number }) {
                 cols="12"
             >
                 <v-data-table-server
+                    height="400"
                     v-model:items-per-page="pageable.size"
-                    :headers="headers"
+                    :headers="props.headers"
                     :items="items"
                     :items-length="pageable.totalElements"
                     :loading="loading"
-                    :search="search"
                     @update:options="loadItems"
+                    :hover="true"
+                    @click:row="(_: unknown, b: rowInfo) => { handleColumnEvent(b.index) }"
                 >
                 </v-data-table-server>
             </v-col>
