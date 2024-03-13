@@ -8,9 +8,11 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DatePicker: typeof import('./src/components/DatePicker.vue')['default']
+    FormModal: typeof import('./src/components/FormModal.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']
     Navigation: typeof import('./src/components/Navigation.vue')['default']
+    RemoveModal: typeof import('./src/components/RemoveModal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./src/components/Table.vue')['default']
